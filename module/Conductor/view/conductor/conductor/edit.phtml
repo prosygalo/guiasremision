@@ -1,0 +1,67 @@
+<?php
+$title = 'Editar registro de conductor de unidad de transporte';
+$this->headTitle($title);
+
+$Cod_Conductor=$form->get('Cod_Conductor');
+$Cod_Conductor->setAttribute('class', 'form-control');
+$Cod_Conductor->setAttribute('readonly', 'readonly');
+
+
+$Nombres_Conductor=$form->get('Nombres_Conductor');
+$Nombres_Conductor->setAttribute('class', 'form-control');
+
+$Apellidos_Conductor=$form->get('Apellidos_Conductor');
+$Apellidos_Conductor->setAttribute('class', 'form-control');
+
+$Rtn=$form->get('Rtn');
+$Rtn->setAttribute('class','form-control');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+//$form->setAttribute('action', $this->url('departamento/edit', ['Cod_Departamento'=> $Cod_Departamento]));
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="container">
+<form>
+       <div class="row">
+            <div class="col-md-12 col-md-6">
+                <h4 class="panel"><i class="fa fa-id-card fa-md" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cod_Conductor) ?>
+                        <?= $this->formElement($Cod_Conductor) ?>
+                        <?= $this->formElementErrors()->render($Cod_Conductor, ['class' => 'help-inline text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Nombres_Conductor) ?>
+                        <?= $this->formElement($Nombres_Conductor) ?>
+                        <?= $this->formElementErrors()->render($Nombres_Conductor, ['class' => 'help-inline text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Apellidos_Conductor) ?>
+                        <?= $this->formElement($Apellidos_Conductor) ?>
+                        <?= $this->formElementErrors()->render($Apellidos_Conductor, ['class' => 'help-inline text-danger']) ?>
+                    </div>
+
+                     <div class="form-group">
+                        <?= $this->formLabel($Rtn) ?>
+                        <?= $this->formElement($Rtn) ?>
+                        <?= $this->formElementErrors()->render($Rtn, ['class' => 'help-inline text-danger']) ?>
+                    </div>
+
+                    <?php
+                        echo $this->formSubmit($submit);
+                        echo $this->form()->closeTag();
+                    ?>
+
+            </div>       
+        </div>
+</form>
+</div>

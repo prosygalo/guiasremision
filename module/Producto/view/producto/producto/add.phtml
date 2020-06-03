@@ -1,0 +1,53 @@
+<?php
+$title = 'Agregar Producto';
+$this->headTitle($title);
+
+$Cod_Producto=$form->get('Cod_Producto');
+$Cod_Producto->setAttribute('class', 'form-control autofocus');
+
+$Nombre_Producto=$form->get('Nombre_Producto');
+$Nombre_Producto->setAttribute('class', 'form-control');
+
+$Descripcion=$form->get('Descripcion');
+$Descripcion->setAttribute('class', 'form-control');
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+//$form->setAttribute('action', $this->url('productos/add'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>   
+<div class="container">                                                   
+<form>
+        <div class="row">
+            <div class="col-md-6 col-md-6">
+                  <h4 class="panel"><i class="fa fa fa-list-alt" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cod_Producto) ?>
+                        <?= $this->formElement($Cod_Producto) ?>
+                        <?= $this->formElementErrors()->render($Cod_Producto, ['class' => 'help-inline  text-danger']) ?>
+                    </div> 
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Nombre_Producto) ?>
+                        <?= $this->formElement($Nombre_Producto) ?>
+                        <?= $this->formElementErrors()->render($Nombre_Producto, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Descripcion) ?>
+                        <?= $this->formElement($Descripcion) ?>
+                        <?= $this->formElementErrors()->render($Descripcion, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+                    <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->form()->closeTag();
+                    ?>
+                   
+             </div>       
+        </div>
+</form>
+</div>

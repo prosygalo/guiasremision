@@ -1,0 +1,87 @@
+<?php
+$title = 'Agregar autorización del SAR';
+$this->headTitle($title);
+
+$Cai=$form->get('Cai');
+$Cai->setAttribute('class', 'form-control autofocus');
+$Cai->setAttribute('placeholder', '6E7C83-81B02E-9E47B7-BB1747-32EAAE-47');
+
+$Consecutivo_Inicial=$form->get('Consecutivo_Inicial');
+$Consecutivo_Inicial->setAttribute('class', 'form-control');
+$Consecutivo_Inicial->setAttribute('placeholder', '000-001-01-00-000651');
+
+$Consecutivo_Final=$form->get('Consecutivo_Final');
+$Consecutivo_Final->setAttribute('class', 'form-control');
+$Consecutivo_Final->setAttribute('placeholder', '000-001-01-00-000700');
+
+$Sucursal=$form->get('Sucursal');
+$Sucursal->setAttribute('class', 'form-control');
+
+$Fecha_Limite=$form->get('Fecha_Limite');
+$Fecha_Limite->setAttribute('class', 'form-control');
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+$form->setAttribute('action', $this->url('autorizacionsar/add'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="container">                                                
+<form>
+        <div class="row">
+            <div class="col-md-6">
+             <h4 class="panel"><i class="fa fa-file" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cai) ?>
+                        <?= $this->formElement($Cai) ?>
+                        <?= $this->formElementErrors()->render($Cai, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                    <div class="form-group">
+                        <?= $this->formLabel($Consecutivo_Inicial) ?>
+                        <?= $this->formElement($Consecutivo_Inicial) ?>
+                        <?= $this->formElementErrors()->render($Consecutivo_Inicial, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <div class="form-group">
+                        <?= $this->formLabel($Consecutivo_Final) ?>
+                        <?= $this->formElement($Consecutivo_Final) ?>
+                        <?= $this->formElementErrors()->render($Consecutivo_Final, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+            </div>
+         </div>  
+         <div class="row">
+            <div class="col-md-3"> 
+                    <div class="form-group">
+                        <?= $this->formLabel($Sucursal) ?>
+                        <?= $this->formElement($Sucursal) ?>
+                        <?= $this->formElementErrors()->render($Sucursal, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+            </div>
+            <div class="col-md-3">        
+                    <div class="form-group">
+                        <?= $this->formLabel($Fecha_Limite) ?>
+                        <?= $this->formElement($Fecha_Limite) ?>
+                        <?= $this->formElementErrors()->render($Fecha_Limite, ['class' => 'help-inline  text-danger']) ?>
+                   </div>
+              </div>
+        </div> 
+        <div class="row">
+            <div class="col-md-6">
+                    <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->formHidden($form->get('Cod_Autorizacion'));
+                    echo $this->form()->closeTag();
+                    ?>
+
+                
+             </div>
+        </div>        
+</form>
+</div>

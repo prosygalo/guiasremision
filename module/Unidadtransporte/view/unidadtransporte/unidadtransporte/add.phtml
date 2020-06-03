@@ -1,0 +1,83 @@
+<?php
+$title = 'Agregar unidad de transporte';
+
+$Cod_Unidad=$form->get('Cod_Unidad');
+$Cod_Unidad->setAttribute('class', 'form-control autofocus');
+
+$Marca_Vehiculo=$form->get('Marca_Vehiculo');
+$Marca_Vehiculo->setAttribute('class', 'form-control');
+
+$Modelo_Vehiculo=$form->get('Modelo_Vehiculo');
+$Modelo_Vehiculo->setAttribute('class', 'form-control');
+
+$Placa_Vehiculo=$form->get('Placa_Vehiculo');
+$Placa_Vehiculo->setAttribute('class', 'form-control');
+
+$Estado=$form->get('Estado');
+$Estado->setAttribute('class', 'form-control');
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+//$form->setAttribute('action', $this->url('departamento/add'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?> 
+<div class="container">                                                    
+<form>
+        <div class="row">
+            <div class="col-md-6">
+                 <h4 class="panel"><i class="fa fa-truck" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cod_Unidad) ?>
+                        <?= $this->formElement($Cod_Unidad) ?>
+                        <?= $this->formElementErrors()->render($Cod_Unidad, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+             </div> 
+        </div> 
+        <div class="row">
+             <div class="col-md-3">      
+                    <div class="form-group">
+                        <?= $this->formLabel($Marca_Vehiculo) ?>
+                        <?= $this->formElement($Marca_Vehiculo) ?>
+                        <?= $this->formElementErrors()->render($Marca_Vehiculo, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+             </div>  
+             <div class="col-md-3"> 
+                    <div class="form-group">
+                        <?= $this->formLabel($Modelo_Vehiculo) ?>
+                        <?= $this->formElement($Modelo_Vehiculo) ?>
+                        <?= $this->formElementErrors()->render($Modelo_Vehiculo, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+             </div>
+        </div> 
+        <div class="row">
+             <div class="col-md-3">     
+                    <div class="form-group">
+                        <?= $this->formLabel($Placa_Vehiculo) ?>
+                        <?= $this->formElement($Placa_Vehiculo) ?>
+                        <?= $this->formElementErrors()->render($Placa_Vehiculo, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+             </div>
+             <div class="col-md-3">  
+
+                     <div class="form-group">
+                        <?= $this->formLabel($Estado) ?>
+                        <?= $this->formElement($Estado) ?>
+                        <?= $this->formElementErrors()->render($Estado, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+              </div>
+         </div>
+          <div class="row">
+             <div class="col-md-6">
+                    
+                    <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->form()->closeTag();
+                    ?>
+                   
+             </div> 
+         </div>      
+</form>
+</div>

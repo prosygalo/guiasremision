@@ -1,0 +1,96 @@
+<?php
+
+namespace Unidadtransporte\Model;
+
+use RuntimeException;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGatewayInterface;
+
+
+class UnidadtransporteTable
+{
+      private $UnidadtransportetableGateway;
+
+     public function __construct(TableGatewayInterface $UnidadtransportetableGateway)
+     {
+               
+                $this->tableGateway = $UnidadtransportetableGateway;
+     }
+
+     public function fetchAll()
+     {
+                /*$sqlSelect = $this->tableGateway->getSql()->select();
+                $sqlSelect->columns(array('Cod_Departamento','Nombre_Depto','Sucursal','Fecha_Ingreso','Fecha_Actualizacion'));
+                $sqlSelect->join('Sucursales', 'sucursales.Cod_sucursal = departamentos.Sucursal', array('Nombre_Sucursal'), 'left');
+
+                 $resultSet = $this->tableGateway->selectWith($sqlSelect);
+                 return $resultSet;*/
+               return $this->tableGateway->select();
+     }
+
+
+    public function getUnidad($Cod_Unidad)
+     {
+                $Cod_Unidad = $Cod_Unidad;
+                $rowset = $this->tableGateway->select(['Cod_Unidad' => $Cod_Unidad]);
+                $row = $rowset->current();
+                if (! $row) {
+                    return false;
+                }
+                return $row;
+     }
+    
+    public function saveUnidad(Unidadtransporte $unidadtransporte)
+     {
+            $data = [
+                'Cod_Unidad' => $unidadtransporte->Cod_Unidad,
+                'Marca_Vehiculo'  => $unidadtransporte->Marca_Vehiculo,
+                'Modelo_Vehiculo'  => $unidadtransporte->Modelo_Vehiculo,
+                'Placa_Vehiculo'  => $unidadtransporte->Placa_Vehiculo,
+                'Estado'  => $unidadtransporte->Estado,
+            ];
+           
+            $Cod_Unidad = $unidadtransporte->Cod_Unidad;
+
+            
+           if ($Cod_Unidad != null) {
+               $this->tableGateway->insert($data);
+               return;
+        
+            }
+
+     }
+     public function updateUnidad(Unidadtransporte $unidadtransporte)
+    {          
+           $data = [
+                'Cod_Unidad' => $unidadtransporte->Cod_Unidad,
+                'Marca_Vehiculo'  => $unidadtransporte->Marca_Vehiculo,
+                'Modelo_Vehiculo'  => $unidadtransporte->Modelo_Vehiculo,
+                'Placa_Vehiculo'  => $unidadtransporte->Placa_Vehiculo,
+                'Estado'  => $unidadtransporte->Estado,
+            ];
+
+               $Cod_Unidad = $unidadtransporte->Cod_Unidad;
+
+
+                try {
+                    
+                    $this->getUnidad($Cod_Unidad);
+                } catch (RuntimeException $e) {
+                    /*throw new RuntimeException(sprintf(
+                        'No se puede actualizar departamento con identificador',
+                        ));*/
+                        return false;
+                }
+
+                $this->tableGateway->update($data, ['Cod_Unidad' => $Cod_Unidad]);
+                return;
+    }
+
+    
+    public function deleteUnidad($Cod_Unidad)
+    {
+             $this->tableGateway->delete(['Cod_Unidad'=>$Cod_Unidad]);
+    }
+
+}

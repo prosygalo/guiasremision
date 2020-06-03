@@ -1,0 +1,95 @@
+<?php
+$title = 'Agregar sucursal';
+$this->headTitle($title);
+
+$Cod_Sucursal=$form->get('Cod_Sucursal');
+$Cod_Sucursal->setAttribute('class', 'form-control autofocus');
+
+$Nombre_Sucursal=$form->get('Nombre_Sucursal');
+$Nombre_Sucursal->setAttribute('class', 'form-control');
+
+$RTN=$form->get('RTN');
+$RTN->setAttribute('class', 'form-control');
+$RTN->setAttribute('placeholder', '0000000000000'); 
+
+$Direccion=$form->get('Direccion');
+$Direccion->setAttribute('class', 'form-control');
+
+$Telefono=$form->get('Telefono');
+$Telefono->setAttribute('class', 'form-control');
+$Telefono->setAttribute('placeholder', '0000-0000');
+
+$Correo=$form->get('Correo');
+$Correo->setAttribute('class', 'form-control');
+$Correo->setAttribute('placeholder', 'usuario@example.com');
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+$form->setAttribute('action', $this->url('sucursal/add'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?> 
+<div class="container">                                                    
+<form>
+        <div class="row">
+            <div class="col-md-6 col-md-6">
+                 <h4 class="panel"><i class="" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cod_Sucursal) ?>
+                        <?= $this->formElement($Cod_Sucursal) ?>
+                        <?= $this->formElementErrors()->render($Cod_Sucursal, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Nombre_Sucursal) ?>
+                        <?= $this->formElement($Nombre_Sucursal) ?>
+                        <?= $this->formElementErrors()->render($Nombre_Sucursal, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Correo) ?>
+                        <?= $this->formElement($Correo) ?>
+                        <?= $this->formElementErrors()->render($Correo, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Direccion) ?>
+                        <?= $this->formElement($Direccion) ?>
+                        <?= $this->formElementErrors()->render($Direccion, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-3">
+                    <div class="form-group">
+                        <?= $this->formLabel($Telefono) ?>
+                        <?= $this->formElement($Telefono) ?>
+                        <?= $this->formElementErrors()->render($Telefono, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+           </div>
+           <div class="col-md-3 col-md-3">
+                    <div class="form-group">
+                        <?= $this->formLabel($RTN) ?>
+                        <?= $this->formElement($RTN) ?>
+                        <?= $this->formElementErrors()->render($RTN, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+        
+             </div>  
+    </div> 
+             <div class="row"> 
+         <div class="col-md-6 col-md-6">
+                  
+                    <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->form()->closeTag();
+                    ?>
+        </div>      
+    </div>    
+</form>
+</div>

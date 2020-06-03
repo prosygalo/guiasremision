@@ -1,0 +1,74 @@
+<?php
+
+namespace Sucursal\Form;
+
+use Zend\Form\Form;
+use Zend\Form\Element;
+
+
+class SucursalForm extends Form
+{
+    public function __construct($name = null)
+    {
+        // We will ignore the name provided to the constructor
+        parent::__construct('sucursal');
+        
+        $this->add([
+            'name' => 'Cod_Sucursal',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Código de sucursal',
+            ],
+        ]);
+       
+        $this->add([
+            'name' => 'Nombre_Sucursal',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Nombre',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'RTN',
+            'type' => 'text',
+            'options' => [
+                'label' => 'RTN',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'Direccion',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Dirección',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'Telefono',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Teléfono',
+            ],
+        ]);
+         
+         $this->add([
+            'name' => 'Correo',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Correo electrónico',
+            ],
+        ]);
+
+
+         $this->add([
+            'name' => 'submit',
+            'type' => 'submit',
+            'attributes' => [
+                'value' => 'Go',
+                'id'    => 'submitbutton',
+            ],
+        ]);
+    }
+}

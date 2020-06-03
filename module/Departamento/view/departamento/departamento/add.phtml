@@ -1,0 +1,57 @@
+<?php
+$title = 'Agregar Departamento';
+$this->headTitle($title);
+
+$Cod_Departamento=$form->get('Cod_Departamento');
+$Cod_Departamento->setAttribute('class', 'form-control autofocus');
+
+$Nombre_Depto=$form->get('Nombre_Depto');
+$Nombre_Depto->setAttribute('class', 'form-control');
+
+$Sucursal=$form->get('Sucursal');
+$Sucursal->setAttribute('class', 'form-control');
+
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+//$form->setAttribute('action', $this->url('departamento/add'));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>  
+<div class="container">                                                    
+<form>
+        <div class="row">
+            <div class="col-md-6 col-md-6">
+                 <h4 class="panel"><i class="" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cod_Departamento) ?>
+                        <?= $this->formElement($Cod_Departamento) ?>
+                        <?= $this->formElementErrors()->render($Cod_Departamento, ['class' => 'help-inline  text-danger']) ?>
+                       
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Nombre_Depto) ?>
+                        <?= $this->formElement($Nombre_Depto) ?>
+                        <?= $this->formElementErrors()->render($Nombre_Depto, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Sucursal) ?>
+                        <?= $this->formElement($Sucursal) ?>
+                        <?= $this->formElementErrors()->render($Sucursal, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+                    
+                    <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->form()->closeTag();
+                    ?>
+                   
+             </div>       
+        </div>
+</form>
+</div>

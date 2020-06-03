@@ -1,0 +1,99 @@
+<?php
+
+$title = 'Editar Sucursal';
+$this->headTitle($title);
+
+$Cod_Sucursal=$form->get('Cod_Sucursal');
+$Cod_Sucursal->setAttribute('class', 'form-control autofocus');
+$Cod_Sucursal->setAttribute('readonly', 'readonly');
+
+$Nombre_Sucursal=$form->get('Nombre_Sucursal');
+$Nombre_Sucursal->setAttribute('class', 'form-control');
+
+$RTN=$form->get('RTN');
+$RTN->setAttribute('class', 'form-control'); 
+
+$Direccion=$form->get('Direccion');
+$Direccion->setAttribute('class', 'form-control');
+
+$Telefono=$form->get('Telefono');
+$Telefono->setAttribute('class', 'form-control');
+
+$Correo=$form->get('Correo');
+$Correo->setAttribute('class', 'form-control');
+
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-block');
+
+//$form->setAttribute('action', $this->url('sucursal/edit', ['Cod_Sucursal'=> $Cod_Sucursal
+//]));
+
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="container">
+<form>
+        <div class="row">
+            <div class="col-md-6 col-md-6">
+                 <h4 class="panel"><i class="" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+                    <div class="form-group">
+                        <?= $this->formLabel($Cod_Sucursal) ?>
+                        <?= $this->formElement($Cod_Sucursal) ?>
+                        <?= $this->formElementErrors()->render($Cod_Sucursal, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Nombre_Sucursal) ?>
+                        <?= $this->formElement($Nombre_Sucursal) ?>
+                        <?= $this->formElementErrors()->render($Nombre_Sucursal, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Correo) ?>
+                        <?= $this->formElement($Correo) ?>
+                        <?= $this->formElementErrors()->render($Correo, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+
+                    <div class="form-group">
+                        <?= $this->formLabel($Direccion) ?>
+                        <?= $this->formElement($Direccion) ?>
+                        <?= $this->formElementErrors()->render($Direccion, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-3">
+                    <div class="form-group">
+                        <?= $this->formLabel($Telefono) ?>
+                        <?= $this->formElement($Telefono) ?>
+                        <?= $this->formElementErrors()->render($Telefono, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+           </div>
+           <div class="col-md-3 col-md-3">
+                    <div class="form-group">
+                        <?= $this->formLabel($RTN) ?>
+                        <?= $this->formElement($RTN) ?>
+                        <?= $this->formElementErrors()->render($RTN, ['class' => 'help-inline  text-danger']) ?>
+                    </div>
+                    
+        
+             </div>
+         </div>
+    <div class="row"> 
+         <div class="col-md-6 col-md-6">
+                  
+                    <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->form()->closeTag();
+                    ?>
+        </div>      
+    </div>
+    </div>
+</form>
+</div>
