@@ -7,6 +7,9 @@ use Sucursal\Model\SucursalTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+/**
+ * This controller is responsible for.
+ */
 class SucursalController extends AbstractActionController
 {
  // Add this property:
@@ -48,7 +51,7 @@ class SucursalController extends AbstractActionController
             $sucursal->exchangeArray($form->getData());
             $this->table->saveSucursal($sucursal);
             //view helper
-            return $this->redirect()->toRoute('sucursal/add');
+            return $this->redirect()->toRoute('sucursal');
             
     }
    

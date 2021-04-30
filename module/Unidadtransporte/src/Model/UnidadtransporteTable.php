@@ -16,7 +16,6 @@ class UnidadtransporteTable
                
                 $this->tableGateway = $UnidadtransportetableGateway;
      }
-
      public function fetchAll()
      {
                 /*$sqlSelect = $this->tableGateway->getSql()->select();
@@ -39,7 +38,19 @@ class UnidadtransporteTable
                 }
                 return $row;
      }
-    
+     public function getUnidadSelect(){
+
+                $rowset = $this->tableGateway->getSql()->select();
+                $rowset->columns(array('Cod_Unidad','Marca_Vehiculo','Modelo_Vehiculo'));
+                $rowset->order('Marca_Vehiculo Asc');
+                $resultSet = $this->tableGateway->selectWith($rowset); 
+                $data= array();
+                foreach($resultSet as $row){
+                   $data[$row->Cod_Unidad] = $row->Marca_Vehiculo . $row->Modelo_Vehiculo;
+                }
+                   return $data;  
+                 
+     }
     public function saveUnidad(Unidadtransporte $unidadtransporte)
      {
             $data = [

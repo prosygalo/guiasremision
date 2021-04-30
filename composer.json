@@ -26,7 +26,10 @@
         "zendframework/zend-session": "^2.9",
         "zendframework/zend-servicemanager-di": "^1.2.1",
         "zendframework/zend-paginator": "^2.8",
-        "zendframework/zend-authentication": "^2.7"
+        "zendframework/zend-authentication": "^2.7",
+        "zendframework/zend-math": "^3.2",
+        "zendframework/zend-permissions-acl": "^2.7",
+        "zendframework/zend-crypt": "^3.3"
     },
     "autoload": {
         "psr-4": {
@@ -36,7 +39,9 @@
             "Sucursal\\": "module/Sucursal/src/",
             "Autorizacionsar\\": "module/Autorizacionsar/src/",
             "Conductor\\": "module/Conductor/src/",
-             "Unidadtransporte\\": "module/Unidadtransporte/src/"
+             "Unidadtransporte\\": "module/Unidadtransporte/src/",
+             "Boletasremision\\": "module/Boletasremision/src/",
+             "Usuario\\": "module/Usuario/src/"
       
         }
     },

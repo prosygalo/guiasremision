@@ -4,6 +4,7 @@ namespace Sucursal\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
+use Zend\Form\Element\Csrf;
 
 
 class SucursalForm extends Form
@@ -60,7 +61,18 @@ class SucursalForm extends Form
                 'label' => 'Correo electrónico',
             ],
         ]);
+         
 
+              
+        $this->add([
+              'type'  => 'csrf',
+              'name' => 'csrf',
+              'options' => [                
+                'csrf_options' => [
+                  'timeout' => 600
+                ]
+              ],
+            ]);
 
          $this->add([
             'name' => 'submit',

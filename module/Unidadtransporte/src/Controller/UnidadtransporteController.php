@@ -8,6 +8,9 @@ use Unidadtransporte\Model\UnidadtransporteTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+/**
+ * This controller is responsible for 
+ */
 
 class UnidadtransporteController extends AbstractActionController
 {

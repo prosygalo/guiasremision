@@ -38,5 +38,6 @@ return [
     'Conductor',
     'Autorizacionsar',
     'Unidadtransporte',
-    
+    'Boletasremision',
+    'Usuario',
 ];

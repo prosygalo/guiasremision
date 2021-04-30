@@ -52,12 +52,11 @@ class Sucursal   implements InputFilterAwareInterface
     public function getInputFilter()
     {
 
-               if ($this->inputFilter) {
-                  return $this->inputFilter;
-              }
+        if ($this->inputFilter) {
+            return $this->inputFilter;
+          }
 
-              $inputFilter = new InputFilter();
-
+        $inputFilter = new InputFilter();
 
         $inputFilter->add([
             'name' => 'Cod_Sucursal',

@@ -9,6 +9,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 
+/**
+ * This controller is responsible for letting the user to log in and log out.
+ */
+
+
 class ConductorController extends AbstractActionController
 {
  // Add this property:
@@ -62,7 +67,7 @@ class ConductorController extends AbstractActionController
         }
 
         $conductor->exchangeArray($form->getData());
-        $this->table->saveConductor($conductor);
+        $this->table->insertConductor($conductor);
         return $this->redirect()->toRoute('conductor');
     }
    
@@ -101,10 +106,11 @@ class ConductorController extends AbstractActionController
             return $viewData;
         }
 
-        $this->table->UpdateConductor($conductor);
+        $this->table->updateConductor($conductor);
 
         // Redirect to album list
         return $this->redirect()->toRoute('conductor');
+
     }
         
 

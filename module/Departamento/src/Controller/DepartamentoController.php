@@ -5,75 +5,90 @@ namespace Departamento\Controller;
 use Departamento\Form\DepartamentoForm;
 use Departamento\Model\Departamento;
 use Departamento\Model\DepartamentoTable;
-use Sucursal\Model\Sucursal;
 use Sucursal\Model\SucursalTable;
 use Zend\Mvc\Controller\AbstractActionController;
+use Interop\Container\ContainerInterface;
 use Zend\View\Model\ViewModel;
-//use Zend\Mvc\Plugin\FlashMessenger\FlashMessenger::NAMESPACE_ERROR;
+use Zend\Mvc\Controller\Plugin\FlashMessenger;
 
+/**
+ * This controller is responsible for 
+ */
 
 class DepartamentoController extends AbstractActionController
 {
  // Add this property:
+    private $container;
+    //private $DepartamentoTable;
     private $table;
-
-    //private $table2;
+    private $SucursalTable; 
     // Add this constructor:
-
-    public function __construct(DepartamentoTable  $table)//, SucursalTable $Table2 )
-     {
+    public function __construct(ContainerInterface $container, DepartamentoTable  $table, SucursalTable $SucursalTable)
+    {
+            $this->container = $container;
+            //$this->DepartamentoTable = $DepartamentoTable;
+            $this->SucursalTable = $SucursalTable;
             $this->table = $table;
-           // $this->table2 = $table2;
-     }
+    }
 
     public function indexAction()
      {
             return new ViewModel([
                 'depto' => $this->table->fetchAll(),
             ]);
+
      }
 
       public function addAction()
-    {
-        $form = new DepartamentoForm();
+    { 
+        $form = new DepartamentoForm(); // mostrar formulario
         $form->get('submit')->setValue('Guardar');
-        
+        $rowset = $this->SucursalTable->getSucursalSelect(); //llenar select sucursal
+        $form->get('Sucursal')->setValueOptions($rowset);
+       
         $request = $this->getRequest();
-
         if (! $request->isPost()) {
             return ['form' => $form];
         }
-
         $departamento = new Departamento();
-        $form->setInputFilter($departamento->getInputFilter());
+        $form->setInputFilter($departamento->getInputFilter());// filtrados y validaciones
         $form->setData($request->getPost());
 
         if (! $form->isValid()) {
             return ['form' => $form];
         }
 
-         $departamento->exchangeArray($form->getData());
-         $Cod_Departamento= [
+         $departamento->exchangeArray($form->getData());  // validacion de codigo único
+         $Cod_Departamento = [
                 'Cod_Departamento' => $departamento->Cod_Departamento,
-            ];
-               
-         $existe = $this->table->getDepto($Cod_Departamento);
-           
-         if ($existe) {
-
-            return ['form' => $form];
-            //$FlashMessenger = $this->FlashMessenger()->addSuccessMessage("El código ya existe"); 
-
-             
-        }             
+         ];
               
-              $this->table->saveDepto($departamento);
-             return $this->redirect()->toRoute('departamento'); 
-                     
+         $existe = $this->table->getDepto($Cod_Departamento); 
+        
+         if ($existe){
+           $flashMessenger =$this->flashMessenger()->addErrorMessage('El Código de sucursal ya esta registrado, intente nuevamente');
+            return ['form' => $form];
+ 
+         }else{
+
+             $flashMessenger = $this->flashMessenger()->clearCurrentMessages();// limpiar mensages flash
+                  $this->table->saveDepto($departamento);
+            return $this->redirect()->toRoute('departamento'); 
+        }
     }
-   
-    public function editAction()
-    {
+
+
+      public function getSucursalSelectAction(){
+
+              $Sucursal = new SucursalTable();
+              $results = $Sucursal->getSucursalSelectJson();
+              $this->_helper->json($results);
+             }
+
+
+     
+      public function editAction()
+     {
         $Cod_Departamento = $this->params()->fromRoute('Cod_Departamento');
 
         if (!$Cod_Departamento) {
@@ -91,6 +106,7 @@ class DepartamentoController extends AbstractActionController
 
         $form = new DepartamentoForm();
         $form->bind($departamento);
+        $form->get('Sucursal')->setValueOptions(['M98'=>'N°2 San Pedro Sula','M89'=>'N°1 Tegucigalpa']);
         $form->get('submit')->setAttribute('value', 'Actualizar');
 
         $request = $this->getRequest();

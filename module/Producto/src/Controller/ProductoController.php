@@ -7,6 +7,9 @@ use Producto\Model\ProductoTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+/**
+ * This controller is responsible for letting 
+ */
 
 
 class ProductoController extends AbstractActionController

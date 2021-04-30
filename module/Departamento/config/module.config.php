@@ -35,16 +35,6 @@ return [
                     ],
                 ],
 
-                 'vercodigo' => [
-                    'type' =>Segment::class,
-                    'options' => [
-                        'route'    => '/vercodigo[/:Cod_Departamento]',
-                        'defaults' => [
-                            'action' => 'vercodigo',
-                        ],   
-                    ],
-                ],
-
                 
                  'delete' => [
                     'type' =>Segment::class,
@@ -70,6 +60,7 @@ return [
         ],
     ],
 ],
+
    
     'view_manager' => [
         'template_path_stack' => [

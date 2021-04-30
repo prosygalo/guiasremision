@@ -21,15 +21,8 @@ class ConductorTable
      {
 
         return $this->tableGateway->select();
-                /*$sqlSelect = $this->tableGateway->getSql()->select();
-                $sqlSelect->columns(array('Cod_Conductor','Nombres_Conductor','Apellidos_conductor','RTN','Fecha_Ingreso','Fecha_Actualizacion'));
-                $sqlSelect->join('unidades', 'unidades.Cod_Unidad = conductores.', array('Unidad'), 'left');
-
-                 $resultSet = $this->tableGateway->selectWith($sqlSelect);
-                 return $resultSet;
-               //return $this->tableGateway->select();*/
+              
      }
-
 
     public function getConductor($Cod_Conductor)
      {
@@ -41,8 +34,20 @@ class ConductorTable
                 }
                 return $row;
      }
-    
-    public function saveConductor(Conductor $conductor)
+     public function getConductorSelect(){
+
+                $rowset = $this->tableGateway->getSql()->select();
+                $rowset->columns(array('Cod_Conductor','Nombres_Conductor'));
+                $rowset->order('Nombres_Conductor Asc');
+                $resultSet = $this->tableGateway->selectWith($rowset); 
+
+                $data= array();
+                foreach($resultSet as $row){
+                   $data[$row->Cod_Conductor] = $row->Nombres_Conductor;
+                }
+                   return $data;            
+     }
+    public function insertConductor(Conductor $conductor)
      {
             $data = [
                 'Cod_Conductor' => $conductor->Cod_Conductor,
@@ -65,7 +70,7 @@ class ConductorTable
      public function updateConductor(Conductor $conductor)
     {          
 
-        $data = [
+            $data = [
                 'Cod_Conductor' => $conductor->Cod_Conductor,
                 'Nombres_Conductor'  => $conductor->Nombres_Conductor,
                 'Apellidos_conductor' =>$conductor->Apellidos_Conductor,
@@ -87,7 +92,7 @@ class ConductorTable
                 }
 
                 $this->tableGateway->update($data, ['Cod_Conductor' => $Cod_Conductor]);
-                return;
+                return ;
     }
 
     

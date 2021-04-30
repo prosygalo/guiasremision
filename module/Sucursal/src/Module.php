@@ -19,10 +19,10 @@ class Module implements ConfigProviderInterface
         return [
             'factories' => [
                 Model\SucursalTable::class => function($container) {
-                    $SucursaltableGateway = $container->get(Model\TableGateway::class);
-                    return new Model\SucursalTable($SucursaltableGateway);
+                    $SucursalTableGateway = $container->get(Model\SucursalTableGateway::class);
+                    return new Model\SucursalTable($SucursalTableGateway);
                 },
-                Model\TableGateway::class => function ($container) {
+                Model\SucursalTableGateway::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Model\Sucursal());

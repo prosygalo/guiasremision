@@ -1,0 +1,60 @@
+<?php
+$title = 'Log-in';
+$this->headTitle($title);
+
+$Correo=$form->get('Correo');
+$Correo->setAttribute('class', 'form-control autofocus');
+
+$Clave=$form->get('Clave');
+$Clave->setAttribute('class', 'form-control autofocus');
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+$submit=$form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary btn-lg btn-block');
+
+$form->prepare();  
+
+echo $this->form()->openTag($form);
+?> 
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <h2 class="form-signin-heading"><i class="fa fa-user" aria-hidden="true"></i>Iniciar sesión</h2>
+                 <div class="form-group">
+                        <?= $this->formLabel($Correo) ?>
+                        <?= $this->formElement($Correo) ?>
+                        <?= $this->formElementErrors()->render($Correo, ['class' => 'help-inline  text-danger']) ?>
+                </div>
+                 <div class="form-group">
+                    <?= $this->formLabel($Clave) ?>
+                     <div class="row">
+                         <div class="col-md-10">
+                             <?= $this->formElement($Clave)?>
+                             <?= $this->formElementErrors()->render($Clave, ['class' => 'help-inline  text-danger']) ?>
+                         </div>
+                         <div class="col-md-2">
+                           <button class="btn btn-default btn-sm" type="button" onclick="mostrarContrasena()"><i class="fa fa-eye-slash fa-sm" aria-hidden="true"></i></button>
+                         </div>
+                    </div>   
+                </div>
+                <div class="form-group">
+                 <?php
+                    echo $this->formSubmit($submit);
+                    echo $this->form()->closeTag(); 
+                ?>  
+                </div>
+        </div>
+    </div>
+</div>
+<script>
+  function mostrarContrasena(){
+      var tipo = document.getElementById("Clave");
+      if(tipo.type == "password"){
+          tipo.type = "text";
+      }else{
+          tipo.type = "password";
+      }
+  }
+</script>

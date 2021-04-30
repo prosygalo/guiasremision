@@ -4,11 +4,13 @@ $url   = $this->url('productos/delete',['Cod_Producto'=>$pro->Cod_Producto]);
 
 $this->headTitle($title);
 ?>
-<div class="container">
 <form action="<?= $url ?>" method="post">
-      <div class="row">
-            <div class="col-md-6 col-md-6">
-              <h4 class="panel"><i class="fa fa-list-alt" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h4>
+ <div class="container"> 
+        <div class="page-header">
+           <h3 class="text-center"><i class="fa fa fa-list-alt" aria-hidden="true"></i><?= $this->escapeHtml($title) ?></h3>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-md-offset-4">
                 <div class="form-group">
                        <label>C&oacute;digo de producto</label>
                        <input class="form-control" type="text" name="Cod_Producto" value= "<?= $this->escapeHtml($pro->Cod_Producto) ?> "/>
@@ -34,6 +36,5 @@ $this->headTitle($title);
                 </div>
            </div>
      </div>
-              
+  </div>            
 </form>
-</div>

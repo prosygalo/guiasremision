@@ -21,24 +21,82 @@ class AutorizacionsarForm extends Form
             'name' => 'Cai',
             'type' => 'text',
             'options' => [
-                'label' => 'Clave de autorización de impresión (C.A.I.)',
+                'label' => '(C.A.I.)',
             ],
         ]);
 
         $this->add([
-            'name' => 'Consecutivo_Inicial',
+            'name' => 'Consecutivo_Inicial_Establ',
             'type' => 'text',
             'options' => [
-                'label' => 'Consecutivo Inicial',
+                'label' => 'Establ',
+            ],
+        ]);
+         $this->add([
+            'name' => 'Consecutivo_Inicial_Punto',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Punto',
+            ],
+        ]);
+          $this->add([
+            'name' => 'Consecutivo_Inicial_Tipo',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Tipo',
+            ],
+        ]);
+           $this->add([
+            'name' => 'Consecutivo_Inicial_Correlativo',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Correlativo',
             ],
         ]);
         
         $this->add([
-            'name' => 'Consecutivo_Final',
+            'name' => 'Consecutivo_Final_Establ',
             'type' => 'text',
             'options' => [
-                'label' => 'Consecutivo Final',
+                'label' => 'Establ',
             ],
+        ]);
+         $this->add([
+            'name' => 'Consecutivo_Final_Punto',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Punto',
+            ],
+        ]);
+          $this->add([
+            'name' => 'Consecutivo_Final_Tipo',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Tipo',
+            ],
+        ]);
+           $this->add([
+            'name' => 'Consecutivo_Final_Correlativo',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Correlativo',
+            ],
+        ]);
+        $this->add([
+            'name' => 'Consecutivo_Actual_Establ',
+            'type' => 'text',
+        ]);
+        $this->add([
+            'name' => 'Consecutivo_Actual_Punto',
+            'type' => 'text',
+        ]);
+        $this->add([
+            'name' => 'Consecutivo_Actual_Tipo',
+            'type' => 'text',
+        ]);
+        $this->add([
+            'name' => 'Consecutivo_Actual_Correlativo',
+            'type' => 'text',
         ]);
 
         $this->add([
@@ -47,10 +105,6 @@ class AutorizacionsarForm extends Form
             'options' => [
                 'label' => 'Sucursal',
                 'empty_option' => 'Seleccione',
-                'value_options' => [
-                       'M89' => 'N°1 Tegucigalpa',
-                       'M98' => 'N°2 SAn Pedro Sula',
-               ],
              ],
         ]);
 

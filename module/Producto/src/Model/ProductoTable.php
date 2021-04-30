@@ -31,8 +31,20 @@ class ProductoTable
                    return false;
                 }
                 return $row;
-     }
-    
+     } 
+     public function getProductoSelect(){
+
+                $rowset = $this->tableGateway->getSql()->select();
+                $rowset->columns(array('Cod_Producto','Nombre_Producto','Descripcion'));
+                $rowset->order('Nombre_Producto Asc');
+                $resultSet = $this->tableGateway->selectWith($rowset); 
+                $data= array();
+                foreach($resultSet as $row){
+                   $data[$row->Cod_Producto] = $row->Nombre_Producto;
+                }
+                   return $data;
+               
+     }   
     public function saveProducto(Producto $producto)
      {
             $data = [

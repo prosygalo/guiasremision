@@ -4,28 +4,26 @@ namespace Usuario;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
-
 return [
 
 'router' => [
     'routes' => [
         'usuario' => [
-            // First we define the basic options for the parent route:
+            // Define las opciones basicas para la ruta padre:
             'type' => Literal::class,
             'options' => [
                 'route'    => '/usuario',
                 'defaults' => [
-                    'controller' => Controller\RegistroController::class,
+                    'controller' => Controller\UsuarioController::class,
                     'action'     => 'index',
                 ],
             ],
 
-            // The following allows "/news" to match on its own if no child
+            // permite que concida con las rutas hijas
             // routes match:
             'may_terminate' => true,
              // Child routes begin:
             'child_routes' => [
-
                 'registro' => [
                     'type' =>Segment::class,
                     'options' => [
@@ -35,11 +33,72 @@ return [
                         ],
                     ],
                 ],
-                 
+
+                'registroadminuser' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                       'route'    => '/registroadminuser',
+                        'defaults' => [
+                            'action' => 'registroadminuser',
+                        ],
+                    ],
+                ],
+
+                'perfil' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                       'route'    =>'/perfil[/:Cod_Usuario]',
+                        'defaults' => [
+                            'action' =>'perfil',
+                        ],
+                    ],
+                  ],
+
+                'edit' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                       'route'    =>'/edit[/:Cod_Usuario]',
+                        'defaults' => [
+                            'action' => 'edit',
+                        ],
+                    ],
+                  ], 
+
+
+                'cambiarclave' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                       'route'    =>'/cambiarclave[/:Cod_Usuario]',
+                        'defaults' => [
+                            'action' => 'cambiarclave',
+                        ],
+                    ],
+                  ],
+
+
+                'restablecerclave' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                       'route'    =>'/restablecerclave[/:Cod_Usuario]',
+                        'defaults' => [
+                            'action' => 'restablecerclave',
+                        ],
+                    ],
+                  ],
+                   'prueba' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                        'route'    => '/prueba',
+                        'defaults' => [
+                            'action' => 'prueba',
+                        ],   
+                    ],
+                ], 
                 ],
             ],
                 
-            'login' => [
+         
+          'login' => [
             // First we define the basic options for the parent route:
             'type' => Literal::class,
             'options' => [
@@ -62,50 +121,32 @@ return [
                     ],
                 ],
             ],
-
-            'perfil' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route'    => '/perfil[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\PerfilController::class,
-                        'action'     => 'perfil',
-                    ],
-                ],
-            ],
-
-              'cambiarclave' => [
-                    'type' => Literal::class,
-                    'options' => [
-                        'route'    => '/cambiarclave',
-                        'defaults' => [
-                            'controller' => Controller\RestablecerClaveController::class,
-                            'action'     => 'cambiarclave',
-                        ],
-                        'constraints' => [
-                            'id' => '[1-9]+',
-                        ],
-                    ],
-                ],
-                    'restablecerclave' => [
-                        'type' => Literal::class,
-                        'options' => [
-                            'route'    => '/restablecerclave',
-                            'defaults' => [
-                                'controller' => Controller\RestablecerClaveController::class,
-                                'action'     => 'restablecerclave',
-                            ],
-
-                         ],
-                     ],
-         
          ],
 
      ],
 
-    'view_manager' => [
-        'template_path_stack' => [
-            'usuario' => __DIR__ . '/../view',
+   'service_manager' => [
+        'factories' => [
+             Storage\AuthStorage::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+             \Zend\Authentication\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
         ],
     ],
+
+     'controllers' => [
+        'factories' => [
+            Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class
+        ],
+
+    ],
+    
+     'view_manager' => [
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+
+        'strategies' => [
+            'ViewJsonStrategy',
+           ],
+    ],
+
 ];

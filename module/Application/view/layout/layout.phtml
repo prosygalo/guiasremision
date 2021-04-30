@@ -6,27 +6,17 @@
         <?= $this->headMeta()
             //->appendName('viewport', 'width=device-width, initial-scale=1.0')
             //->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
-			->appendName('viewport', 'width=device-width, initial-scale=1.0')
+		      	->appendName('viewport', 'width=device-width, initial-scale=1.0')
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
-        ?>
-       
+        ?>      
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
             ->prependStylesheet($this->basePath('css/style.css'))
             ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
-            ->prependStylesheet($this->basePath('css/jquery-ui.css'))
             ->prependStylesheet($this->basePath('datatable/dataTables.bootstrap.min.css'))
             ->prependStylesheet($this->basePath('font-awesome/css/font-awesome.css'))
             
         ?> 
-       
-        <?= $this->inlineScript()
-            ->appendFile($this->basePath('js/jquery.min.js'))
-            ->appendFile($this->basePath('js/jquery-ui.js'))
-            ->appendFile($this->basePath('js/bootstrap.min.js'))
-            ->appendFile($this->basePath('datatable/jquery.dataTables.min.js'))
-            ->appendFile($this->basePath('datatable/dataTables.bootstrap.min.js'))
-           
-        ?>
+
     </head>
     <body>
     <p><h3 class="text-left">Nombre de la <span class="zf-green">app</span></h3></p>
@@ -46,32 +36,47 @@
          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
            <ul class="nav navbar-nav">
             <li class="active"><a href="<?= $this->url('home')?>"><i class="fa fa-home" aria-hidden="true" style="color:#FFFFFF;"></i>Inicio<span class="sr-only">(current)</span></a></li>
-            <li><a href="<?= $this->url('conductor') ?>"><i class="fa fa-id-card" aria-hidden="true" style="color:#FFFFFF;"></i>Conductores</a></li>
-            
-            <li><a href="<?= $this->url('autorizacionsar') ?>"><i class="fa fa-file" aria-hidden="true" style="color:#FFFFFF;"></i>Autorizaciones de la SAR</a></li>
-            <li><a href="<?= $this->url('home') ?>"><i class="fa fa-file-text" aria-hidden="true" style="color:#FFFFFF;"></i>Boletas guía de remisi&oacute;n</a></li>
-            <li><a href="<?= $this->url('productos') ?>"><i class="fa fa-list-alt" aria-hidden="true" style="color:#FFFFFF;"></i>Productos</a></li>
-            <li><a href="<?= $this->url('unidadtransporte') ?>"><i class="fa fa-truck" aria-hidden="true" style="color:#FFFFFF;"></i>Unidades de transporte</a></li>
           </ul>
+
           <ul class="nav navbar-nav navbar-right">
+            <?php  if($this->identity()):?>
+            <li><a href="<?= $this->url('boletasremision/add') ?>"><i class="fa fa-file-text" aria-hidden="true" style="color:#FFFFFF;"></i>Boletas guía de remisi&oacute;n</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true" style="color:#FFFFFF;"></i>Administración<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="<?= $this->url('home')?>">Registro</a></li>
-                <li><a href="<?= $this->url('sucursal')?>">Sucursales</a></li>
-                <li><a href="<?= $this->url('departamento')?>">Departamentos</a></li>
+                <li><a href="<?= $this->url('sucursal')?>"><i class="fa fa-building" aria-hidden="true" ></i>Sucursales</a></li>
+                <li><a href="<?= $this->url('departamento')?>"><i class="fa fa-file" aria-hidden="true" ></i>Departamentos</a></li>
+                <li><a href="<?= $this->url('conductor')?>"><i class="fa fa-id-card fa-md" aria-hidden="true" ></i>Conductores</a></li>
+                <li><a href="<?= $this->url('unidadtransporte')?>"><i class="fa fa-truck" aria-hidden="true"></i>Unidades de transporte</a></li>
+                <li><a href="<?= $this->url('autorizacionsar')?>"><i class="fa fa-file" aria-hidden="true" ></i>Autorisación SAR</a></li>
+                <li><a href="<?= $this->url('productos')?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i>Productos</a></li>
+                <li><a href="<?= $this->url('usuario')?>"><i class="fa fa-user-circle-o" aria-hidden="true" ></i>Usuarios</a></li>
+                <li><a href="<?= $this->url('boletasremision')?>"><i class="fa fa-file-text" aria-hidden="true"></i>Boletas de remisión</a></li>
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true" style="color:#FFFFFF;"></i>Inicie sesi&oacute;n<span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true" style="color:#FFFFFF;"></i><?= $this->identity()['Correo'] ?><span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-user-plus desplegable"style="color:#FFFFFF;"></i>Cerrar sesi&oacute;n</a></li>
+                <li><a href="<?= $this->url('usuario/perfil',['Cod_Usuario'=>$this->identity()['Cod_Usuario']])?>"><i class="fa fa-user" aria-hidden="true"></i>Perfil</a></li>
+                <li><a href="<?= $this->url('logout')?>"><i class="fa fa-cog" aria-hidden="true"></i>Cerrar Sesión</a></li>
               </ul>
             </li>
+            <?php  else: ?>
+            <li><a href="<?= $this->url('login') ?>"><i class="fa fa-cog" aria-hidden="true" style="color:#FFFFFF;"></i>Inicie sesi&oacute;n</a>
+            </li>
+            <?php  endif;?>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+    <?= $this->inlineScript()
+            ->appendFile($this->basePath('js/jquery.min.js'))
+            ->appendFile($this->basePath('js/bootstrap.min.js'))
+            ->appendFile($this->basePath('datatable/jquery.dataTables.min.js'))
+            ->appendFile($this->basePath('datatable/dataTables.bootstrap.min.js'))
+            //->appendFile($this->basePath('js/newtrProductos.js'))
+           
+        ?>
         <div class="container-fluid">
                 <?= $this->content ?>
                 <hr>

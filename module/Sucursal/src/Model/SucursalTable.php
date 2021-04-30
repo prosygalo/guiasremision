@@ -10,24 +10,24 @@ use Zend\Db\TableGateway\TableGatewayInterface;
 
 class SucursalTable
 {
-    private $SucursaltableGateway;
+    private $SucursalTableGateway;
 
-    public function __construct(TableGatewayInterface $SucursaltableGateway)
+    public function __construct(TableGatewayInterface $SucursalTableGateway)
      {
-               $this->tableGateway = $SucursaltableGateway;
+               $this->SucursalTableGateway = $SucursalTableGateway;
      }
 
      public function fetchAll()
      {
-                
-               return $this->tableGateway->select();
+               
+               return $this->SucursalTableGateway->select();
      }
 
     public function getSucursal($Cod_Sucursal)
      {
                 $Cod_Sucursal = $Cod_Sucursal;
 
-                $rowset = $this->tableGateway->select(['Cod_Sucursal' => $Cod_Sucursal]);
+                $rowset = $this->SucursalTableGateway->select(['Cod_Sucursal' => $Cod_Sucursal]);
                 $row = $rowset->current();
                 if (! $row) {
                     /*throw new RuntimeException(sprintf(
@@ -38,21 +38,20 @@ class SucursalTable
                 }
                 return $row;
      }
-
+    
+   
     public function getSucursalSelect(){
 
-                $select = $this->tableGateway->getSql()->select();
-                $select->columns(array('Cod_Sucursal','Nombre_Sucursal'));
-                $result=$this->tableGateway->selectWith($select);
-
-                foreach ($result as $res) {
-                    $data[$res['Cod_Sucursal']] = $res['Nombre_Sucursal'];
+                $rowset = $this->SucursalTableGateway->getSql()->select();
+                $rowset->columns(array('Cod_Sucursal','Nombre_Sucursal'));
+                $resultSet = $this->SucursalTableGateway->selectWith($rowset);
+                $data= array();
+                foreach($resultSet as $row){
+                   $data[$row->Cod_Sucursal] = $row->Nombre_Sucursal;
                 }
-                return $data;
-
+                   return $data;
+                 
      }
-
-    
     public function saveSucursal(Sucursal $sucursal)
      {
              $data = [
@@ -67,7 +66,7 @@ class SucursalTable
              $Cod_Sucursal = $sucursal->Cod_Sucursal;
               
            if ($Cod_Sucursal != null) {
-               $this->tableGateway->insert($data);
+               $this->SucursalTableGateway->insert($data);
                return;
         
             }
@@ -75,14 +74,13 @@ class SucursalTable
      public function updateSucursal(Sucursal $sucursal)
     {        
             $data = [
-
                 'Cod_Sucursal' => $sucursal->Cod_Sucursal,
                 'Nombre_Sucursal'  => $sucursal->Nombre_Sucursal,
                 'RTN'  => $sucursal->RTN,
                 'Direccion'  => $sucursal->Direccion,
                 'Telefono'  => $sucursal->Telefono,
                 'Correo'  => $sucursal->Correo,
-             ];
+               ];
 
                 $Cod_Sucursal = $sucursal->Cod_Sucursal;
 
@@ -97,14 +95,14 @@ class SucursalTable
                     return false;
                 }
 
-                $this->tableGateway->update($data, ['Cod_Sucursal' => $Cod_Sucursal]);
+                $this->SucursalTableGateway->update($data, ['Cod_Sucursal' => $Cod_Sucursal]);
                 return;
     }
 
     
     public function deleteSucursal($Cod_Sucursal)
     {
-             $this->tableGateway->delete(['Cod_Sucursal'=>$Cod_Sucursal]);
+             $this->SucursalTableGateway->delete(['Cod_Sucursal'=>$Cod_Sucursal]);
     }
 
 }
