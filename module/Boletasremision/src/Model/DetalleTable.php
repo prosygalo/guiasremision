@@ -16,45 +16,40 @@ class DetalleTable
             $this->DetalleTableGateway = $DetalleTableGateway;
      }
 
-     public function fetchAll()
-     {
 
-        return $this->DetalleTableGateway->select();
-     }
-
-    public function getDetalle($Cod_Detalle)
-     {
-        $Cod_Detalle = $Cod_Detalle;
-            $rowset = $this->DetalleTableGateway->select(['Cod_Detalle' => $Cod_Detalle]);
-            $row = $rowset->current();
-                if (! $row) {
-                    return false;
-                }
-                return $row;
+    public function detalle($Cod_Boleta)
+     {      
+       /* SELECT *
+        FROM detalle
+        inner join boletas_guia_remision
+        ON detalle.Boleta = boletas_guia_remision.Cod_Boleta inner join productos ON productos.Cod_Producto =  detalle.Producto
+        where Boleta = '29';*/
+                
+                $sqlSelect = $this->DetalleTableGateway->getSql()->select();
+                $sqlSelect->columns(array('Producto','Cantidad'));
+                $sqlSelect->join('productos', 'productos.Cod_Producto = detalle.Producto', array('Nombre_Producto'), 'left');
+                $sqlSelect->where(['Boleta' => $Cod_Boleta]);
+                $resultSet = $this->DetalleTableGateway->selectWith($sqlSelect);
+                return $resultSet;
+                
      }  
-   /* public function nsertDetalle(array $data)
-     {  
-        $data= array()
-              
-        $this->DetalleTableGateway->insert($data);
-            return $data ;        
 
-     }*/
     public function insertDetalle($Cod_Producto, $lasId, $Cantidad)
     {  
         $Cod_Producto = $Cod_Producto;
         $lasId = $lasId;
         $Cantidad = $Cantidad; 
-        $data = array();
 
-        for($count = 0; $count < count($Cod_Producto); $count++){           
+        for($count = 0; $count < count($Cod_Producto); $count++){
+            $data = array();           
              $data=[
-                'Cod_Producto' =>$Cod_Producto[$count],
-                'Cod_Boleta'   =>$lasId,
+                'Producto' =>$Cod_Producto[$count],
+                'Boleta'   =>$lasId,
                 'Cantidad'     =>$Cantidad[$count],
             ];
-          }
+          
           $this->DetalleTableGateway->insert($data);
-           return ;    
+        }
+        return $data;
     }
 }

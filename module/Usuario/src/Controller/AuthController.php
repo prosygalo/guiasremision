@@ -7,6 +7,7 @@ use Usuario\Model\UsuarioTable;
 use Usuario\Form\Validation\LoginFormFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Result;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Crypt\Password\Bcrypt;
@@ -51,7 +52,6 @@ class AuthController extends AbstractActionController
 
         $Correo =  $this->request->getPost("Correo");
         $Clave  =  $this->request->getPost("Clave");
-        $bcrypt =  new Bcrypt();
                       
         //Establecemos como datos a autenticar los que nos llegan del formulario
         $this->authService->getAdapter()->setIdentity($Correo);
@@ -63,7 +63,7 @@ class AuthController extends AbstractActionController
         //Si el resultado del login es falso, es decir no son correctas las credenciales
         if (! $result->isValid())
         {
-        //$this->flashMessenger()->addErrorMessage('¡Nombre de usuario o clave incorrecta!');
+        //$this->flashMessenger()->addErrorMessage('¡Nombre de usuario o clave incorrecta!');     
             return ['form' => $form];
         }
         //Si el resultado del login es verdadero, es decir son correctas las credenciales
@@ -80,6 +80,7 @@ class AuthController extends AbstractActionController
                     );
         return $this->redirect()->toRoute('home');
     }
+    
 
     /**
      * La acción "cerrar sesión" realiza la operación de cierre de sesión
@@ -88,7 +89,7 @@ class AuthController extends AbstractActionController
     {
        $this->authService->getStorage()->clear();
        
-       return $this->redirect()->toRoute('home');
+       return $this->redirect()->toRoute('login');
     }
 
 }

@@ -1,7 +1,5 @@
 <?php
-
 return [
-
   'db' => array(
       'driver'         => 'Pdo',
       'dsn'            => 'mysql:dbname=guias_de_remision;host:localhost',
@@ -13,8 +11,7 @@ return [
             'Zend\Db\Adapter\Adapter'
                     => 'Zend\Db\Adapter\AdapterServiceFactory',
           ),
-       ),
-	   
+       ), 
 	  /* 'Ldap'[
 	          'host'=>'dc-server.ad.alex-tech-adventure.com',
 	          'userStarTls'=>true,
@@ -26,4 +23,4 @@ return [
 			  
 			  ]
 	*/
-    ];
+];

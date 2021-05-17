@@ -30,35 +30,11 @@ class DepartamentoForm extends Form
             ],
         ]);
 
-        /*$this->add([
-            'type' => Element\Select::class,
-            'name' => 'Sucursal',
-            'id'=>'Sucursal',
-            'options' => [
-                'label' => 'Sucursal',
-                'empty_option' => 'Seleccione',
-                'value_options' => [
-               ],
-            ],
-        ]);*/
-
         $Sucursal = new Element\Select('Sucursal');
         $Sucursal->setAttribute('name', 'Sucursal');
         $Sucursal->setAttribute('id', 'Sucursal');
         $Sucursal->setLabel('Sucursal');
         $Sucursal->setEmptyOption('Seleccione'); 
-       /*
-        $SucursalSelect = new SucursalTable();
-        $rowset = $SucursalSelect->getSucursalSelect();
-        $Sucursal->setValueOptions($rowset);   
-       
-
-         $SucursalSelect = new SucursalTable();
-        $rowset = $SucursalSelect->getsucursalselect();
-          /*foreach($rowset as $row){
-             $Sucursal->setValueOptions([$row->Cod_Sucursal => $row->Nombre_Sucursal]);   
-        }*/
-
         $this->add($Sucursal);
 
          $this->add([

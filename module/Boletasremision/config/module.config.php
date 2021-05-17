@@ -1,13 +1,10 @@
 <?php
-
 namespace Boletasremision;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
-
 return [
-
 'router' => [
     'routes' => [
         'boletasremision' => [
@@ -77,7 +74,16 @@ return [
                     'options' => [
                         'route'    => '/reporte[/:Cod_Boleta]',
                         'defaults' => [
-                            'action' => 'detalle',
+                            'action' => 'reporte',
+                        ],   
+                    ],
+                ],
+                 'pdf' => [
+                    'type' =>Segment::class,
+                    'options' => [
+                        'route'    => '/pdf[/:Cod_Boleta]',
+                        'defaults' => [
+                            'action' => 'pdf',
                         ],   
                     ],
                 ],

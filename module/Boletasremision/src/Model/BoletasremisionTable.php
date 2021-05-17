@@ -25,6 +25,16 @@ class BoletasremisionTable
                 $resultSet = $this->BoletasremisionTableGateway->selectWith($sqlSelect);
                  return $resultSet;
      }
+     public function boleta($Cod_Boleta)
+     {
+
+                $sqlSelect = $this->BoletasremisionTableGateway->getSql()->select();
+                $sqlSelect->columns(array('Cod_Boleta','Fecha_Emision','Consecutivo_Actual_Establ','Consecutivo_Actual_Punto','Consecutivo_Actual_Tipo','Consecutivo_Actual_Correlativo','Motivo_Traslado','Num_Transferencia','Punto_Partida','Punto_Destino','Fecha_Inicio_Traslado','Fecha_Final_Traslado','Fecha_Ingreso'));
+                $sqlSelect->join('sucursales', 'sucursales.Cod_Sucursal = boletas_guia_remision.Sucursal', array('Nombre_Sucursal'), 'left');
+                $sqlSelect->where(['Cod_Boleta' => $Cod_Boleta]);
+                $resultSet = $this->BoletasremisionTableGateway->selectWith($sqlSelect);
+                 return $resultSet;
+     }
 
      public function getBoleta($Cod_Boleta)
      {

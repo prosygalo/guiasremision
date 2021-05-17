@@ -17,14 +17,14 @@ use Unidadtransporte\Model\UnidadtransporteTable;
 use Producto\Model\ProductoTable;
 use Autorizacionsar\Model\Autorizacionsar;
 use Autorizacionsar\Model\AutorizacionsarTable;
-
+use Dompdf\Dompdf;
 /**
  * This controller is responsible for 
  */
 
 class BoletasremisionController extends AbstractActionController
 {
-	// Add this property:
+    // Add this property:
     private $container;
     private $BoletasremisionTable;
     private $DetalleTable; 
@@ -47,13 +47,13 @@ class BoletasremisionController extends AbstractActionController
               
     }
 
-	public function indexAction()
+    public function indexAction()
     {
-    	 return new ViewModel([
+         return new ViewModel([
                 'Boletas' => $this->BoletasremisionTable->fetchAll(),
             ]);
     }
-	public function addAction()
+    public function addAction()
     {
         $fecha= date('Y-m-d');
         //-------Consecutivo autorizacion sar----
@@ -80,7 +80,6 @@ class BoletasremisionController extends AbstractActionController
                     }elseif($Cod_Autorizacion != NULL && $Consecutivo_Actual_Correlativo == NULL){                           
                             $form = new BoletasremisionForm();
                             $form->get('submit')->setValue('Guardar');
-                            $form->get('Usuario')->setValue('1');
                             $form->get('Fecha_Emision')->setValue($fecha);
                             $form->get('Consecutivo_Actual_Establ')->setValue($Consecutivo_Inicial_Establ);
                             $form->get('Consecutivo_Actual_Punto')->setValue($Consecutivo_Inicial_Punto); 
@@ -165,57 +164,57 @@ class BoletasremisionController extends AbstractActionController
                    $Consecutivo_Actual_Tipo= $this->request->getPost("Consecutivo_Actual_Tipo");
                    $Consecutivo_Actual_Correlativo = $this->request->getPost("Consecutivo_Actual_Correlativo");
                    
-                   $this->AutorizacionsarTable->UpdateConsecutivoActual($Cod_Autorizacion, $Consecutivo_Actual_Establ, $Consecutivo_Actual_Punto, $Consecutivo_Actual_Tipo, $Consecutivo_Actual_Correlativo);                            
+                   $this->AutorizacionsarTable->UpdateConsecutivoActual($Cod_Autorizacion, $Consecutivo_Actual_Establ, $Consecutivo_Actual_Punto, $Consecutivo_Actual_Tipo, $Consecutivo_Actual_Correlativo);                   
                 //Cada producto debe de registrarse con el codigo de boleta  y almacenarse en el detalle
-                   /* for($count = 0; $count < count($Cod_Producto); $count++){//si existe, almacenamos detalle   
-                        $data = [
-                            'Cod_Producto'=>$Cod_Producto[$count],
-                            'Cod_Boleta'  =>$lasId,
-                            'Cantidad'    =>$Cantidad[$count],
-                        ];
-                        $resultado = $this->DetalleTable->insertDetalle($data);// Enviar Datos a la tabla detalle a la BD
-                    }  */
                     $this->DetalleTable->insertDetalle($Cod_Producto, $lasId, $Cantidad);// Enviar Datos a la tabla detalle a la BD                        
                     return $this->redirect()->toRoute('boletasremision');               
             }
             return $this->redirect()->toRoute('boletasremision/add');
 
     }
+
     public function  detalleAction()
     {
+        //Recibir el código de boleta  para mostrar el detalle que corresponde
         $Cod_Boleta = $this->params()->fromRoute('Cod_Boleta');
-        if (!$Cod_boleta) {
+        //Si el código es incorrecto redirigie a listado de boletas
+        if (!$Cod_Boleta) {
             return $this->redirect()->toRoute('boletasremision');
         }
-    }
-
-     public function  reporteAction()
-    {
-        $Cod_Boleta = $this->params()->fromRoute('Cod_Boleta');
-        if (!$Cod_boleta) {
+        //consultar registro del código de boleta recibido
+        try {
+            $boleta = $this->BoletasremisionTable->getBoleta($Cod_Boleta);
+        } catch (\Exception $e) {
             return $this->redirect()->toRoute('boletasremision');
         }
+        //crear instancia de formulario
+        $form = new BoletasremisionForm();
+        $form->bind($boleta);
+        //------llenado de los Listado de selección---------------
+        $rowset = $this->SucursalTable->getSucursalSelect(); //llenar select sucursal 
+        $form->get('Sucursal')->setValueOptions($rowset); 
 
+        $rowset2 = $this->UnidadtransporteTable->getUnidadSelect(); //llenar select unidad 
+        $form->get('Unidad_Transporte')->setValueOptions($rowset2); 
+
+        $rowset3 = $this->ConductorTable->getConductorSelect(); //llenar select Conductor 
+        $Conductor = $form->get('Conductor')->setValueOptions($rowset3); 
+
+        $rowset4 = $this->ProductoTable->getProductoSelect(); //llenar select Conductor 
+        $productos = $form->get('productos')->setValueOptions($rowset4); 
+        //Verifica si la usuario ha enviado el formulario
+        $request = $this->getRequest();
+        $viewData = [
+            'Cod_Boleta' => $Cod_Boleta, 'form' => $form,//Bindear formulario y registro de boleta
+            'detalle'=>$this->DetalleTable->detalle($Cod_Boleta),//Enviar una variable a la tabla donde se mostrará el producto y la cantidad correspondiente al cada codigo de boleta  
+        ];
+        //Verifica si la usuario ha enviado el formulario, de lo contrario retorna el viewdata
+        if (! $request->isPost()) {
+            return $viewData;
+        } 
+                     
     }
-    public function  errorautorizacionAction()
-    {
-         return new ViewModel([
-                'Message' => 'No puede emitir boletas para guía  de remisión sin autorización previa, favor autorice sus documentos fiscales',
-            ]);
-     
-    }
-    public function  expirocorrelativoAction()
-    {
-        return new ViewModel([
-                'Message' => 'Lo sentimos, el número de correlativo autorizado ha llegado ha su límite, favor autorice impresión de documento fiscal',
-            ]);
-    }
-    public function  vencimientofechaAction()
-    {  
-         return new ViewModel([
-                'Message' => 'La fecha límite de emisión de documento fiscal ha expirado',
-            ]);
-    }
+
     // formato Json para pruebas
     public function productopruebaAction()
     { 
@@ -227,6 +226,101 @@ class BoletasremisionController extends AbstractActionController
         // return a 404 if this action is not called via ajax
        //$this->getResponse()->setStatusCode(404);
         //return NULL;
-  }
+   }
+
+    public function reporteAction()
+    {
+      //Recibir el código de boleta  para mostrar el detalle que corresponde
+        $Cod_Boleta = $this->params()->fromRoute('Cod_Boleta');
+        //Si el código es incorrecto redirigie a listado de boletas
+        if (!$Cod_Boleta) {
+            return $this->redirect()->toRoute('boletasremision');
+        }
+        //consultar registro del código de boleta recibido
+        try {
+            $boleta = $this->BoletasremisionTable->getBoleta($Cod_Boleta);
+        } catch (\Exception $e) {
+            return $this->redirect()->toRoute('boletasremision');
+        }
+        //crear instancia de formulario
+        $form = new BoletasremisionForm();
+        $form->bind($boleta);
+        //------llenado de los Listado de selección---------------
+        $rowset = $this->SucursalTable->getSucursalSelect(); //llenar select sucursal 
+        $form->get('Sucursal')->setValueOptions($rowset); 
+
+        $rowset2 = $this->UnidadtransporteTable->getUnidadSelect(); //llenar select unidad 
+        $form->get('Unidad_Transporte')->setValueOptions($rowset2); 
+
+        $rowset3 = $this->ConductorTable->getConductorSelect(); //llenar select Conductor 
+        $Conductor = $form->get('Conductor')->setValueOptions($rowset3); 
+
+        $rowset4 = $this->ProductoTable->getProductoSelect(); //llenar select Conductor 
+        $productos = $form->get('productos')->setValueOptions($rowset4); 
+        //Verifica si la usuario ha enviado el formulario
+        $request = $this->getRequest();
+
+        $viewData = [
+            'Cod_Boleta' => $Cod_Boleta, 'form' => $form,//Bindear formulario y registro de boleta
+            'detalle'=>$this->DetalleTable->detalle($Cod_Boleta),//Enviar una variable a la tabla donde se mostrará el producto y la cantidad correspondiente al cada codigo de boleta 
+        ];
+        //Verifica si la usuario ha enviado el formulario, de lo contrario retorna el viewdata
+        if (! $request->isPost()) {
+            return $viewData;
+        } 
+
+       $r = $this->getResponse();
+
+       $r->setContent(file_get_contents('guiasremision/reporte')); //
+
+       return $r;         
+    }
+    public function pdfAction()
+    {
+        //Recibir el código de boleta  para mostrar el detalle que corresponde
+        $Cod_Boleta = $this->params()->fromRoute('Cod_Boleta');
+        //Si el código es incorrecto redirigie a listado de boletas
+        if (!$Cod_Boleta) {
+            return $this->redirect()->toRoute('boletasremision');
+        } 
+
+        $html = file_get_contents("http://guiasremision/boletasremision/reporte/$Cod_Boleta");
+        //instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        /*$dompdf->set_base_path("http://guiasremision/css/bootstrap.min.css");
+        $dompdf->set_base_path("http://guiasremision/js/jquery.min.js");
+        $dompdf->set_base_path("http://guiasremision/js/bootstrap.min.js");*/
+        //$content .= '<link type="text/css" media="all" href="https://guiasremision/css/bootstrap.min.css" rel="stylesheet" />';
+        //Cargar el archivo HTMl
+        $dompdf->loadHTML($html);
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+        // Render the HTML as PDF
+        $dompdf->render();
+       // Output the generated PDF to Browser
+        return $dompdf->stream('boletaremision.pdf');
+    }
+      public function  errorautorizacionAction()
+    {   //redirecciona a la vista de error
+         return new ViewModel([
+                'Message' => 'No puede emitir boletas para guía  de remisión sin autorización previa, favor autorice sus documentos fiscales',
+            ]);
+     
+    }
+    public function  expirocorrelativoAction()
+    {
+        //redirecciona a la vista  de error
+        return new ViewModel([
+                'Message' => 'Lo sentimos, el número de correlativo autorizado ha llegado ha su límite, favor autorice impresión de documento fiscal',
+            ]);
+    }
+    public function  vencimientofechaAction()
+    {   //redirecciona a la vista de error
+         return new ViewModel([
+                'Message' => 'La fecha límite de emisión de documento fiscal ha expirado',
+            ]);
+    }
+
+
 }
 

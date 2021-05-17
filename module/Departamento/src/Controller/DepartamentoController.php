@@ -77,15 +77,13 @@ class DepartamentoController extends AbstractActionController
         }
     }
 
-
-      public function getSucursalSelectAction(){
+    /*
+    public function getSucursalSelectAction(){
 
               $Sucursal = new SucursalTable();
               $results = $Sucursal->getSucursalSelectJson();
               $this->_helper->json($results);
-             }
-
-
+    }*/
      
       public function editAction()
      {
@@ -106,7 +104,8 @@ class DepartamentoController extends AbstractActionController
 
         $form = new DepartamentoForm();
         $form->bind($departamento);
-        $form->get('Sucursal')->setValueOptions(['M98'=>'N°2 San Pedro Sula','M89'=>'N°1 Tegucigalpa']);
+        $rowset = $this->SucursalTable->getSucursalSelect(); //llenar select sucursal
+        $form->get('Sucursal')->setValueOptions($rowset);
         $form->get('submit')->setAttribute('value', 'Actualizar');
 
         $request = $this->getRequest();

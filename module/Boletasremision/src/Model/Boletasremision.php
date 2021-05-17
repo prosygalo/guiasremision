@@ -35,9 +35,12 @@ class Boletasremision implements InputFilterAwareInterface
     public $Conductor;
     public $Fecha_Ingreso;
     public $Usuario;
+    //Propiedad tabla detalle
     public $Cod_Detalle;
-    public $Cod_Producto;
+    public $Producto;
     public $Cantidad;
+    //Propiedad tabla detalle del producto 
+    public $Nombre_Producto;
   
    
     // Add this property:
@@ -66,8 +69,10 @@ class Boletasremision implements InputFilterAwareInterface
         //Propiedades de otras tablegateway
         $this->Nombre_Sucursal = !empty($data['Nombre_Sucursal']) ? $data['Nombre_Sucursal'] : null;
         $this->Cod_Detalle = !empty($data['Cod_Detalle']) ? $data['Cod_Detalle'] : null;
-        $this->Cod_Producto = !empty($data['Cod_Producto']) ? $data['Cod_Producto'] : null;
+        $this->Producto = !empty($data['Producto']) ? $data['Producto'] : null;
         $this->Cantidad= !empty($data['Cantidad']) ? $data['Cantidad'] : null;
+        //Priedad de la tabla producto
+        $this->Nombre_Producto= !empty($data['Nombre_Producto']) ? $data['Nombre_Producto'] : null;
         
     }
 
@@ -592,7 +597,7 @@ class Boletasremision implements InputFilterAwareInterface
             'Fecha_Ingreso'  => $this->Fecha_Ingreso,
             'Usuario'  => $this->Usuario,
             'Cod_Detalle' => $this->Cod_Detalle,
-            'Cod_Producto' => $this->Cod_Producto,
+            'Producto' => $this->Producto,
             'Cantidad'  => $this->Cantidad,
           
         ];

@@ -29,7 +29,9 @@
         "zendframework/zend-authentication": "^2.7",
         "zendframework/zend-math": "^3.2",
         "zendframework/zend-permissions-acl": "^2.7",
-        "zendframework/zend-crypt": "^3.3"
+        "zendframework/zend-crypt": "^3.3",
+        "dompdf/dompdf": "^0.8.3",
+        "spipu/html2pdf": "^5.2"
     },
     "autoload": {
         "psr-4": {

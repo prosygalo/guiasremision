@@ -39,5 +39,6 @@ return [
     'Autorizacionsar',
     'Unidadtransporte',
     'Boletasremision',
-    'Usuario',
+    'Usuario'
+    
 ];

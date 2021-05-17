@@ -88,7 +88,7 @@ class UsuarioTable
     {          
         $Cod_Usuario = $Cod_Usuario;
         $rowset=$this->tableGateway->getSql()->select();
-        $rowset->columns([/*'Cod_Usuario','Cod_Empleado','Usuario','Correo','Estado','Rol','Fecha_Ingreso'*/'Clave']);
+        $rowset->columns(['Cod_Usuario','Cod_Empleado','Usuario','Correo','Estado','Rol','Fecha_Ingreso']);
         $rowset->where(['Cod_Usuario' =>$Cod_Usuario]);
         $resultSet=$this->tableGateway->selectWith($rowset);
             return $resultSet;
